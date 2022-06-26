@@ -26,7 +26,7 @@ def training(model, dataloader, opt, epoch, train_output, latent_space, device, 
     
     train_output.append((epoch, img, out))
 
-    return running_loss / len(dataloader)
+    return running_loss / len(dataloader), latent_space
      
 
 def testing(model, dataloader, epoch, test_output, device):
