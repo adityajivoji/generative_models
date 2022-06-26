@@ -1,7 +1,7 @@
 import torch
 from tqdm import tqdm
-num_epochs=25
-def training(model, dataloader, opt, epoch, train_output, latent_space, device):
+
+def training(model, dataloader, opt, epoch, train_output, latent_space, device, num_epochs):
     print('Training')
     # costs=[]
     model.train()
@@ -48,3 +48,4 @@ def testing(model, dataloader, epoch, test_output, device):
             running_loss += loss.item()
         
         test_output.append((epoch, img, out))
+    return running_loss / len(dataloader)

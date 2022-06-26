@@ -2,21 +2,24 @@ import torch
 import torch
 from architecture.architecture import vae
 from trainNtest.trainNtest import training, testing
-from utility.utility import cost_graph,view_images
+from utility.utility import cost_graph,view_images, plot_latent
 
 
 def main(training_data,testing_data,num_epochs):
     device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
     model = vae().to(device)
+    FILE = "VAE_model.pth"
     opt = model.optimizer()
     train_loss = []
     test_loss = []
     train_output = []
     test_output =[]
+    latent_space=[]
     print("Training Model")
     for epoch in range(num_epochs):
         print(f"Epoch {epoch + 1}")
-        train_epoch_loss = training(model, training_data, opt,  epoch, train_output, device)
+        # train_epoch_loss = training(model, training_data, opt,  epoch, train_output, device)
+        train_epoch_loss, latent_space = training(model, training_data, opt, epoch, train_output, latent_space, device, num_epochs)
         print(f"Train Loss: {train_epoch_loss}")
         train_loss.append(train_epoch_loss)
     print("Testing Model")
@@ -26,13 +29,13 @@ def main(training_data,testing_data,num_epochs):
         print(f"Test Loss: {test_epoch_loss}")
         test_loss.append(test_epoch_loss)
     
-    # torch.save(model.state_dict(), FILE)  # saves the trained model at the specified path
+    torch.save(model.state_dict(), FILE)  # saves the trained model at the specified path
     # files.download('VAE_model.pth')
 
     cost_graph(train_loss,"Train Loss")
     cost_graph(test_loss,"Test Loss") 
     
-    # plot_latent(model,train_data)
+    plot_latent(latent_space)
     print("Train result") 
     view_images(train_output,num_epochs)
     print("Test result")
