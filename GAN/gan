@@ -1,0 +1,20 @@
+import torch
+import torch
+from architecture import gan
+from trainNtest import training, testing
+from utility import cost_graph, view_images
+import loader.loader
+from main import main as main
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context #to downld cifar10
+
+batch_size = 64
+num_epochs = 5
+train_loader = loader.trainLoader(batch_size)
+test_loader = loader.testLoader(batch_size)
+lr = 1e-3
+
+
+# device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
+
+main(train_loader, test_loader, num_epochs)
