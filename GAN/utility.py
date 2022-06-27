@@ -45,6 +45,11 @@ def cost_graph(d_loss, g_loss, title):
 #
 #         plt.show()
 def view_images(output, epoch):
+    '''
+    This function displays the result images
+    param output: list containing per epoch results(real and generated) obtained after training/testing
+    
+    '''
     # print(f"Epoch: {epoch}")
     # plt.figure(figsize=(120, 20))
     # for i in range(10):
