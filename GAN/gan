@@ -1,5 +1,4 @@
 import torch
-import torch
 from architecture import gan
 from trainNtest import training, testing
 from utility import cost_graph, view_images
