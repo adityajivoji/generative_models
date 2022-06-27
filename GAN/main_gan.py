@@ -18,15 +18,25 @@ lr = 1e-5
 
 
 def main(training_data, testing_data, num_epochs):
+    '''
+       main function
+    '''
     device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
+    
+    #load model
     model = gan(device, lr, batch_size).to(device)
+    
+    #generator optimizer
     g_optimizer = torch.optim.Adam(model.generator.parameters(), lr=lr)
+    
+    #discriminator optimizer
     d_optimizer = torch.optim.Adam(model.discriminator.parameters(), lr=lr)
 
     FILE = "dcgan.pt"
     ch = input("Press l to load model, t to train model: ").lower()  # asks user if they want to train the model or load the already saved model
     if ch == 'l':
         model.load_state_dict(torch.load(FILE,map_location=device))  # loads the model
+        
         # test the loaded model on the Test data
         test_outputs, dloss, gloss = testing(model, test_loader, num_epochs)
         cost_graph(dloss, gloss, "DCGAN  Test Loss")
