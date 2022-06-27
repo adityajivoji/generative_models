@@ -3,6 +3,15 @@ from tqdm import tqdm
 from utility import view_images
 
 def d_train(model, img, d_opt):
+    '''
+    This function trains the Discriminator.
+    returns discriminator loss
+    parameters:
+    model: CNN Gan model
+    img: input image
+    d_opt: discriminator optimizer
+    
+    '''
     img = img.to(model.device)
     d_opt.zero_grad()
     d_g_z, d_x, g_z = model.d_forward(img)
@@ -19,6 +28,16 @@ def d_train(model, img, d_opt):
 
 
 def g_train(model, img, g_opt):
+    '''
+    This function trains the Generator.
+    returns: 
+    :generator loss 
+    :real and fake image
+    parameters:
+    model: CNN Gan model
+    img: input image
+    d_opt: generator optimizer
+    '''
     img = img.to(model.device)
     g_opt.zero_grad()
     d_g_z, g_z = model.g_forward(img.shape[0])
@@ -30,7 +49,19 @@ def g_train(model, img, g_opt):
 
 
 def training(model, train_loader, num_epochs, g_opt, d_opt):
-    k = 5
+    '''
+    This function trains the GAN model.
+    Parameters-
+    model: CNN GAN model
+    train_loader: DataLoader object that iterates through the train set
+    g_opt: optimizer object to be used for training the generator
+    d_opt: optimizer object to be used for training the discriminator
+    num_epochs: number of epochs
+    Returns: 
+    discriminator and generator loss
+    train_outputs: list containing generated and real images.
+    '''
+    
     dloss = []
     gloss = []
     train_outputs = []
@@ -56,6 +87,15 @@ def training(model, train_loader, num_epochs, g_opt, d_opt):
 
 
 def d_test(model, test_loader):
+    '''
+    This function tests the Discriminator.
+    returns discriminator loss
+    parameters:
+    model: CNN Gan model
+    test_loader: DataLoader object that iterates through the test set
+    
+    
+    '''
     with torch.no_grad():
         for i, (img, _) in enumerate(tqdm(test_loader)):
             img = img.to(model.device)
@@ -66,6 +106,16 @@ def d_test(model, test_loader):
 
 
 def g_test(model, test_loader):
+    '''
+    This function tests the Generator.
+    returns 
+    :generator loss
+    :real and fake image
+    parameters:
+    model: CNN Gan model
+    test_loader: DataLoader object that iterates through the test set
+    
+    '''
     for i, (img, _) in enumerate(tqdm(test_loader)):
         img = img.to(model.device)
         d_g_z, g_z = model.g_forward(img.shape[0])
@@ -75,7 +125,17 @@ def g_test(model, test_loader):
 
 
 def testing(model, test_loader, num_epochs):
-    k = 5
+    '''
+    This function tests the GAN model.
+    Parameters-
+    model: CNN GAN model
+    test_loader: DataLoader object that iterates through the test set
+    num_epochs: number of epochs
+    Returns: 
+    discriminator and generator loss
+    test_outputs: list containing generated and real images.
+    '''
+    
     total_loss = []
     test_outputs=[]
     dloss = []
