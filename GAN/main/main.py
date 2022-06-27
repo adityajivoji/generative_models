@@ -2,8 +2,6 @@ import torch
 import torch
 from architecture import gan
 from trainNtest import training, testing
-from utility import cost_graph, view_images
-import loader
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context #to downld cifar10
 
